@@ -30,3 +30,7 @@ By using this application one can send and receive money, pay different bills, v
 - Spring data JPA
 - Hibernate
 - MySQL
+- React
+- JavaScript
+- CSS
+- HTML
