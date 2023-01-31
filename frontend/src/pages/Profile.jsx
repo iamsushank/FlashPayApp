@@ -22,30 +22,7 @@ function Profile(props) {
 
             <Box width={["90%", '60%', '35%']} p={['20px']} border='1px' borderRadius={'5px'} borderColor='gray.100'>
                 <Flex flexDirection='column' w={['100%']} textAlign='start' gap={['10px']}>
-                    <Text fontSize={['3xl']} textAlign='center' display={['none', 'block']} fontWeight='500'> Welcome {name}  <BasicUsage filed={"name"} /> </Text>
-                    <Text fontSize={['3xl']} textAlign='center' display={['block', 'none']} fontWeight='500'> {name}  <BasicUsage filed={"name"} /> </Text>
-
-                    <Flex gap={'5px'}>
-                        <Text fontWeight={'bold'}>Email address:</Text>
-                        <Text>{email}</Text>
-                    </Flex>
-
-                    <Flex justifyContent={'space-between'}>
-                        <Flex gap={'5px'}>
-                            <Text fontWeight={'bold'}>Password:</Text>
-                            <Text>1234</Text>
-                        </Flex>
-                        <BasicUsage filed={"password"} />
-                    </Flex>
-
-                    <Flex justifyContent={'space-between'}>
-                        <Flex gap={'5px'}>
-                            <Text fontWeight={'bold'}>Phone No:</Text>
-                            <Text>987800001</Text>
-                        </Flex>
-                        <BasicUsage filed={"phoneno"} />
-                    </Flex>
-
+                    <Text fontSize={['3xl']} textAlign='center' display={['none', 'block']} fontWeight='500'> Welcome </Text>
                 </Flex>
 
             </Box>

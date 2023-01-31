@@ -11,32 +11,37 @@ import PrivateRoute from "./privateRoute/PrivateRoute";
 function App() {
   return (
     <>
-
       <Nav />
 
       <Routes>
-
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={
-          <PrivateRoute>
+        <Route
+          path="/profile"
+          element={
             <Profile />
-          </PrivateRoute>
-        } />
-        <Route path="/dashboard" element={
-          <PrivateRoute>
+            // <PrivateRoute>
+            // </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
             <Dashboard />
-          </PrivateRoute>
-        } />
-        <Route path="/payment" element={
-          <PrivateRoute>
+            //   <PrivateRoute>
+            //   </PrivateRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
             <PaymentHistory />
-          </PrivateRoute>
-        } />
+            //   <PrivateRoute>
+            //   </PrivateRoute>
+          }
+        />
         <Route path="*" element={<ErrorPage />} />
-
       </Routes>
-
     </>
   );
 }

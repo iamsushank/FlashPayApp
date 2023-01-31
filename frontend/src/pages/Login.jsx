@@ -16,37 +16,42 @@ function Login() {
     const navigate = useNavigate()
 
     const [userData, setUserData] = useState({
-        email: "",
+        mobileNo: "",
         password: ""
     })
 
     const HandleSubmit = () => {
 
       
-        const { email, password } = userData
+        const { mobileNo, password } = userData
 
-        if ( email != '', password != "") {
+        if ( mobileNo != '', password != "") {
 
             dispatch(Login_Request())
 
 
-            axios.get("https://jsonplaceholder.typicode.com/todos")
+            axios.post("http://localhost:8889/login", userData)
                 .then(({ data }) => {
-                    console.log(data)
-                    dispatch(Login_Success({
-                        name:"Gourav",
-                        email:"Gourav143faz@gmail.com",
-                        token:"1234"
-                    }))
-
-                    navigate('/profile')
-
-                    toast({
-                        title: 'Login Successful.',
-                        status: 'success',
-                        duration: 1000,
-                        isClosable: true,
-                    })
+                    try {
+                        console.log(data)
+                        dispatch(Login_Success(data))
+                        navigate('/')
+                        toast({
+                            title: 'Login Successful.',
+                            status: 'success',
+                            duration: 1000,
+                            isClosable: true,
+                        })
+                    } catch (error) {
+                        console.log(error)
+                        dispatch(Login_Failure())
+                        toast({
+                            title: 'Login Failure.',
+                            status: 'error',
+                            duration: 1000,
+                            isClosable: true,
+                        })
+                    }
                 })
                 .catch(err => {
                     dispatch(Login_Failure())
@@ -84,10 +89,10 @@ function Login() {
                     <Text fontSize={['3xl']} textAlign='center' display={['block', 'none']} fontWeight='500'> Login</Text>
                     
                     <FormControl isRequired>
-                        <FormLabel>Email address</FormLabel>
-                        <Input type='email' 
-                         name='email'
-                         value={userData.email}
+                        <FormLabel>Mobile No</FormLabel>
+                        <Input type='text' 
+                         name='mobileNo'
+                         value={userData.mobileNo}
                          onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                         />
                         <FormHelperText>We'll never share your Student ID.</FormHelperText>

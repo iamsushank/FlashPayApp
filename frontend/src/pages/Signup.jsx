@@ -14,18 +14,19 @@ function Signup() {
     const navigate = useNavigate()
 
     const [userData, setUserData] = useState({
-        name: "",
-        email: "",
-        password: ""
+        userName: "",
+        mobileNo: "",
+        password: "",
+        email: ""
     })
-
+    console.log(userData);
     const HandleSubmit = () => {
 
-        const { name, email, password } = userData
+        const { userName, mobileNo, password, email } = userData
 
-        if (name != "", email != '', password != "") {
+        if (userName != "", mobileNo != '', password != "", email != "") {
 
-            axios.get("https://jsonplaceholder.typicode.com/todos")
+            axios.post("http://localhost:8889/signUp", userData)
                 .then(({ data }) => {
                     console.log(data)
                     // dispatch(Login_Request())
@@ -74,8 +75,8 @@ function Signup() {
                     <FormControl isRequired>
                         <FormLabel>Name </FormLabel>
                         <Input type='text'
-                            name='name'
-                            value={userData.name}
+                            name='userName'
+                            value={userData.userName}
                             onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                         />
                     </FormControl>
@@ -95,6 +96,15 @@ function Signup() {
                         <Input type='password'
                             name='password'
                             value={userData.password}
+                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                        />
+                    </FormControl>
+                    
+                    <FormControl isRequired>
+                        <FormLabel>Mobile</FormLabel>
+                        <Input type='text'
+                            name='mobileNo'
+                            value={userData.mobileNo}
                             onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                         />
                     </FormControl>

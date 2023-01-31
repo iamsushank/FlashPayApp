@@ -13,34 +13,33 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 
+
 function AddCard({ filed }) {
+
+    const uuid = useSelector(state => state.AuthReducer.details.uuid)
 
     const toast = useToast()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [newData, setNewData] = useState({
+        accountNumber: "",
+        mobileNumber: "",
+        ifscCode: "",
         bankName: "",
-        accountNo: "",
-        valid: "",
-        customerName: "",
-        cvv: ""
+        bankBalance: "",
+        walletId: ""
     })
 
     const HandleUpdate = () => {
         console.log("Add Card")
 
-        const { bankName, accountNo, valid, customerName, cvv } = newData
+        const { accountNumber, mobileNumber, ifscCode, bankName, bankBalance, walletId } = newData
 
-        if (bankName != '' && accountNo != "" && valid != "" && customerName != "" && cvv != '') {
+        if (accountNumber != "" && mobileNumber != "" && ifscCode != "" && bankName != "" && bankBalance != "" && walletId != "") {
 
-            axios.post("", {
-                bankName,
-                accountNo,
-                valid,
-                customerName,
-                cvv
-            })
+            console.log(`http://localhost:8889/bank/${ uuid }`, newData)
+            axios.post(`http://localhost:8889/bank/${ uuid }`, newData)
                 .then(({ data }) => {
                     onClose()
                     toast({
@@ -111,36 +110,35 @@ function AddCard({ filed }) {
                         <Flex flexDirection={'column'} gap='10px'>
 
                             <Input
+                                placeholder={'Account Number'}
+                                name="accountNumber"
+                                value={newData.accountNumber}
+                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
+                            />
+                            <Input
+                                placeholder={'Mobile Number'}
+                                name="mobileNumber"
+                                value={newData.mobileNumber}
+                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
+                            />
+                            <Input
+                                placeholder={'IFSC Code'}
+                                name="ifscCode"
+                                value={newData.ifscCode}
+                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
+                            />
+                            <Input
                                 placeholder={'Bank Name'}
                                 name="bankName"
                                 value={newData.bankName}
                                 onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
                             />
                             <Input
-                                placeholder={'Account No'}
-                                name="accountNo"
-                                value={newData.accountNo}
+                                placeholder={'Bank Balance'}
+                                name="bankBalance"
+                                value={newData.bankBalance}
                                 onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
                             />
-                            <Input
-                                placeholder={'Valid Thus'}
-                                name="valid"
-                                value={newData.valid}
-                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
-                            />
-                            <Input
-                                placeholder={'Customer Name'}
-                                name="customerName"
-                                value={newData.customerName}
-                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
-                            />
-                            <Input
-                                placeholder={'CVV'}
-                                name="cvv"
-                                value={newData.cvv}
-                                onChange={(e) => setNewData({ ...newData, [e.target.name]: e.target.value })}
-                            />
-
                         </Flex>
                     </ModalBody>
 
