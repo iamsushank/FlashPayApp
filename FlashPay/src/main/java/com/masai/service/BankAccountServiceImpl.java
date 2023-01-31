@@ -1,7 +1,6 @@
 package com.masai.service;
 
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,8 @@ import com.masai.repository.CustomerDAO;
 import com.masai.repository.LogInDAO;
 import com.masai.repository.SessionDAO;
 
-import java.util.*;
-
 @Service
-public class BanKAccountServiceImpl implements BankAccountService{
+public class BankAccountServiceImpl implements BankAccountService{
 
 	@Autowired
 	private BankAccountDao bankDao;

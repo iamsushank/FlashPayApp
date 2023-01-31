@@ -65,11 +65,11 @@ public class LoginServiceImpl implements LoginService{
 	public String logOutFromAccount(String key) throws LoginException {
 		Optional<CurrentSessionUser> currentSessionuserOptional = SessionDAO.findByUuid(key);
 		
-		if(!currentSessionuserOptional.isPresent()) {
-			throw new LoginException("User has not looged in with this Userid");
+		if(currentSessionuserOptional.isEmpty()) {
+			throw new LoginException("User has not logged in with this Userid");
 		}
 		
-		CurrentSessionUser currentSessionUser =getCurrentLoginUserSession.getCurrentUserSession(key);
+		CurrentSessionUser currentSessionUser = getCurrentLoginUserSession.getCurrentUserSession(key);
 		
 		SessionDAO.delete(currentSessionUser);
 		
@@ -77,7 +77,7 @@ public class LoginServiceImpl implements LoginService{
 		
 		loginDAO.delete(logindata.get());
 		
-		return "Logged Out Succefully....";
+		return "Logged Out Successfully....";
 	}
 	
 

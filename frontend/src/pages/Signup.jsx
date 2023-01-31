@@ -22,9 +22,9 @@ function Signup() {
     console.log(userData);
     const HandleSubmit = () => {
 
-        const { userName, mobileNo, password, email } = userData
+        const { name, userName, age, mobileNo, city, email, password } = userData
 
-        if (userName != "", mobileNo != '', password != "", email != "") {
+        if (name != "", userName != "", age != "", mobileNo != "", city != "", email != "", password != "") {
 
             axios.post("http://localhost:8889/signUp", userData)
                 .then(({ data }) => {
@@ -73,10 +73,45 @@ function Signup() {
                     <Text fontSize={['3xl']} textAlign='center' display={['block', 'none']} fontWeight='500'> SignUp</Text>
 
                     <FormControl isRequired>
-                        <FormLabel>Name </FormLabel>
+                        <FormLabel>Name</FormLabel>
+                        <Input type='text'
+                            name='name'
+                            value={userData.name}
+                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                        />
+                    </FormControl>
+
+                    <FormControl isRequired>
+                        <FormLabel>Username</FormLabel>
                         <Input type='text'
                             name='userName'
                             value={userData.userName}
+                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                        />
+                    </FormControl>
+
+                    <FormControl isRequired>
+                        <FormLabel>Age</FormLabel>
+                        <Input type='number'
+                            name='age'
+                            value={userData.age}
+                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                        />
+                    </FormControl>
+                    
+                    <FormControl isRequired>
+                        <FormLabel>Mobile</FormLabel>
+                        <Input type='text'
+                            name='mobileNo'
+                            value={userData.mobileNo}
+                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
+                        />
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>City</FormLabel>
+                        <Input type='text'
+                            name='city'
+                            value={userData.city}
                             onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
                         />
                     </FormControl>
@@ -100,14 +135,6 @@ function Signup() {
                         />
                     </FormControl>
                     
-                    <FormControl isRequired>
-                        <FormLabel>Mobile</FormLabel>
-                        <Input type='text'
-                            name='mobileNo'
-                            value={userData.mobileNo}
-                            onChange={(e) => setUserData({ ...userData, [e.target.name]: e.target.value })}
-                        />
-                    </FormControl>
 
                     <Flex gap={['10px']} mt={['10px']}>
                         <Button as={Link} to='/' colorScheme='blackAlpha' size={['sm', 'md']}>Back</Button>

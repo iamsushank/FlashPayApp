@@ -25,7 +25,6 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer createNewSignUp(Customer newSignUp) throws LoginException {
-		System.out.println(newSignUp.toString());
 		Optional<Customer> opt = signUpDAO.findByUserName(newSignUp.getUserName());
 		if(opt.isPresent())
 		{
