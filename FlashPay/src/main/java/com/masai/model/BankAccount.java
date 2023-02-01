@@ -1,11 +1,18 @@
 package com.masai.model;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
+@Getter@Setter@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class BankAccount {
 	
 	@Id
@@ -16,64 +23,20 @@ public class BankAccount {
 	private String mobileNumber;
 	
 	@NotNull
+	@Pattern(regexp="[a-zA-Z0-9]{11}", message = "IFSC Code must have 11 characters")
 	private String ifscCode;
 	
 	@NotNull
+	@Pattern(regexp="[a-zA-Z]{2,20}", message = "Name must not contains any numbers and Special Character")
 	private String bankName;
-	
-	@NotNull
+
+	private CurrencyType currencyType;
+
+	@Digits(integer=10, fraction=2)
+	@PositiveOrZero
 	private double bankBalance;
 
 	private Integer walletId;
 
-	public String getAccountNumber() {
-		return accountNumber;
-	}
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public String getIfscCode() {
-		return ifscCode;
-	}
-
-	public void setIfscCode(String ifscCode) {
-		this.ifscCode = ifscCode;
-	}
-
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public double getBankBalance() {
-		return bankBalance;
-	}
-
-	public void setBankBalance(double bankBalance) {
-		this.bankBalance = bankBalance;
-	}
-
-	public Integer getWalletId() {
-		return walletId;
-	}
-
-	public void setWalletId(Integer walletId) {
-		this.walletId = walletId;
-	}
-
-	
-	
 }

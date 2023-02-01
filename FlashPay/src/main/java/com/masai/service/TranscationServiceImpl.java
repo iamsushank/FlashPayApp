@@ -1,15 +1,10 @@
 package com.masai.service;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import com.masai.exception.CustomerNotException;
 import com.masai.exception.TransactionNotFoundException;
-import com.masai.exception.UserNotLogedinException;
+import com.masai.exception.UserNotLoggedInException;
 import com.masai.model.*;
 import java.util.*;
 
@@ -20,8 +15,6 @@ import com.masai.repository.CustomerDAO;
 import com.masai.repository.SessionDAO;
 import com.masai.repository.TransactionDao;
 import com.masai.repository.WalletDao;
-
-import io.swagger.v3.oas.annotations.servers.Server;
 
 @Service
 public class TranscationServiceImpl implements TransactionService{
@@ -39,12 +32,12 @@ public class TranscationServiceImpl implements TransactionService{
 	private SessionDAO sessionDao;
 
 	@Override
-	public List<Transaction> viewAlltransaction(String  uniqueId) throws UserNotLogedinException, TransactionNotFoundException {
+	public List<Transaction> viewAlltransaction(String  uniqueId) throws UserNotLoggedInException, TransactionNotFoundException {
 		
 		Optional<CurrentSessionUser> optional = sessionDao.findByUuid(uniqueId);
 		
 		if(!optional.isPresent()) {
-			throw new UserNotLogedinException("User is not Logged in");
+			throw new UserNotLoggedInException("User is not Logged in");
 		}
 		
 		Optional<Customer> customer=  customerDAO.findById(optional.get().getUserId());
@@ -63,7 +56,7 @@ public class TranscationServiceImpl implements TransactionService{
 	}
 
 	@Override
-	public List<Transaction> viewTranscationByDate(String from, String  to,String uniqueId) throws UserNotLogedinException,TransactionNotFoundException {
+	public List<Transaction> viewTranscationByDate(String from, String  to,String uniqueId) throws UserNotLoggedInException,TransactionNotFoundException {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		
@@ -73,7 +66,7 @@ public class TranscationServiceImpl implements TransactionService{
 		Optional<CurrentSessionUser> optional = sessionDao.findByUuid(uniqueId);
 		
 		if(!optional.isPresent()) {
-			throw new UserNotLogedinException("User not logged in");
+			throw new UserNotLoggedInException("User not logged in");
 		}
 		
 		Optional<Customer> customer=  customerDAO.findById(optional.get().getUserId());
@@ -97,12 +90,12 @@ public class TranscationServiceImpl implements TransactionService{
 
 
 	@Override
-	public List<Transaction> viewAllTransactionbyTransactionType(String uniqueId,TransactionType type) throws UserNotLogedinException,TransactionNotFoundException  {
+	public List<Transaction> viewAllTransactionbyTransactionType(String uniqueId,TransactionType type) throws UserNotLoggedInException,TransactionNotFoundException  {
 
 		Optional<CurrentSessionUser> optional = sessionDao.findByUuid(uniqueId);
 		
 		if(!optional.isPresent()) {
-			throw new UserNotLogedinException("User not logged In");
+			throw new UserNotLoggedInException("User not logged In");
 		}
 		
 		Optional<Customer> customer=  customerDAO.findById(optional.get().getUserId());

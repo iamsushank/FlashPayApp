@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.masai.exception.BillNotExisttException;
 import com.masai.exception.InsufficientBalanceException;
-import com.masai.exception.UserNotLogedinException;
+import com.masai.exception.UserNotLoggedInException;
 import com.masai.model.BillPayment;
 import com.masai.service.BillPaymentService;
 
@@ -27,13 +26,13 @@ public class BillPaymentController {
 	private BillPaymentService bService;
 	
 	@PostMapping("/{uniqueId}")
-	public ResponseEntity<BillPayment> addNewBillPaymentDetails(@RequestBody BillPayment billPayment, @PathVariable String uniqueId) throws UserNotLogedinException, InsufficientBalanceException {
+	public ResponseEntity<BillPayment> addNewBillPaymentDetails(@RequestBody BillPayment billPayment, @PathVariable String uniqueId) throws UserNotLoggedInException, InsufficientBalanceException {
 		BillPayment addBill =  bService.makeBillPayment(billPayment, uniqueId);
 		return new ResponseEntity<BillPayment> (addBill, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Set<BillPayment>> viewAllBillPayments(@PathVariable("id") String uniqueId) throws UserNotLogedinException{
+	public ResponseEntity<Set<BillPayment>> viewAllBillPayments(@PathVariable("id") String uniqueId) throws UserNotLoggedInException {
 		Set<BillPayment> billPayments = bService.viewBillPayments(uniqueId);
 		return new ResponseEntity<Set<BillPayment>>(billPayments,HttpStatus.ACCEPTED);
 	}

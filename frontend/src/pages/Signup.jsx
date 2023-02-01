@@ -26,7 +26,7 @@ function Signup() {
 
         if (name != "", userName != "", age != "", mobileNo != "", city != "", email != "", password != "") {
 
-            axios.post("http://localhost:8889/signUp", userData)
+            axios.post("http://localhost:6969/signUp", userData)
                 .then(({ data }) => {
                     console.log(data)
                     // dispatch(Login_Request())

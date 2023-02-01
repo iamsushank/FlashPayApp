@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masai.exception.InsufficientBalanceException;
-import com.masai.exception.UserNotLogedinException;
+import com.masai.exception.UserNotLoggedInException;
 import com.masai.model.BillPayment;
 import com.masai.model.CurrentSessionUser;
 import com.masai.model.Customer;
@@ -43,11 +43,11 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 	private TransactionDao transactionDao;
 
 	@Override
-	public BillPayment makeBillPayment(BillPayment billpayment,String uniqueId) throws InsufficientBalanceException, UserNotLogedinException {
+	public BillPayment makeBillPayment(BillPayment billpayment,String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException {
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);
 		
 		if(!currentUser.isPresent()) {
-			throw new UserNotLogedinException("Please Login first");
+			throw new UserNotLoggedInException("Please Login first");
 		}
 		
 		Optional<Customer> customer =  cDao.findById(currentUser.get().getUserId());
@@ -80,13 +80,13 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 	}
 
 	@Override
-	public Set<BillPayment> viewBillPayments(String uniqueId) throws UserNotLogedinException {
+	public Set<BillPayment> viewBillPayments(String uniqueId) throws UserNotLoggedInException {
 		
 		
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);
 		
 		if(!currentUser.isPresent()) {
-			throw new UserNotLogedinException("Please Login first");
+			throw new UserNotLoggedInException("Please Login first");
 		}
 		
 		Optional<Customer> customer =  cDao.findById(currentUser.get().getUserId());

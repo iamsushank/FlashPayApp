@@ -13,6 +13,8 @@ import com.masai.model.BankAccount;
 public interface BankAccountDao extends JpaRepository<BankAccount, String>{
 	Optional<BankAccount> findByAccountNumber(String accountNumber);
 
-	public BankAccount findByWalletId(Integer walletId);
+	BankAccount findByWalletId(Integer walletId);
+
+	List<BankAccount> findAllByWalletId(Integer walletId);
     
 }

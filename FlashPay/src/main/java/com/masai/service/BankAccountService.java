@@ -1,20 +1,20 @@
 package com.masai.service;
 
-import java.util.Set;
+import java.util.List;
 
-import com.masai.exception.BankAccountNotExsists;
+import com.masai.exception.BankAccountNotExists;
 import com.masai.exception.BankAlreadyAdded;
 import com.masai.exception.NotAnyBankAddedYet;
-import com.masai.exception.UserNotLogedinException;
+import com.masai.exception.UserNotLoggedInException;
 import com.masai.model.BankAccount;
 
 public interface BankAccountService {
 	
-	public BankAccount addBank(BankAccount bankAccount,String uniqueId) throws UserNotLogedinException,BankAlreadyAdded;
+	public BankAccount createAccount(BankAccount bankAccount, String uniqueId) throws UserNotLoggedInException,BankAlreadyAdded;
 
-	public BankAccount removeBank(String accountNumber,String uniqueId) throws BankAccountNotExsists,UserNotLogedinException;
+	public BankAccount removeBank(String accountNumber,String uniqueId) throws BankAccountNotExists, UserNotLoggedInException;
 	
-	public BankAccount viewBankAccountI(String accountNumber,String uniqueId) throws BankAccountNotExsists,UserNotLogedinException ;
+	public BankAccount viewBankAccountByAccountNumber(String accountNumber, String uniqueId) throws BankAccountNotExists, UserNotLoggedInException;
 	
-	public BankAccount viewAllAccount(String uniqueId) throws UserNotLogedinException,NotAnyBankAddedYet, BankAccountNotExsists;
+	public List<BankAccount> viewAllAccount(String uniqueId) throws UserNotLoggedInException,NotAnyBankAddedYet, BankAccountNotExists;
 }

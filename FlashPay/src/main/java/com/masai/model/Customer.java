@@ -13,12 +13,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter@Setter@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
@@ -36,7 +34,7 @@ public class Customer {
 	private String userName;
 
 	@NotNull
-	@Pattern(regexp="^(1[8-9]|[2-9][0-9]|100)$", message = "Age must be between 18 to 100")
+//	@Pattern(regexp="^(1[8-9]|[2-9][0-9]|100)$", message = "Age must be between 18 to 100")
 	private Integer age;
 
 	@NotNull
@@ -56,12 +54,8 @@ public class Customer {
 	@Size(min=6,max=20)
 	private String password;
 
-
 	@JsonIgnore
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private Wallet wallet;
-
-
-
 
 }

@@ -23,7 +23,8 @@ public class LogIn {
 	
 	
 	@NotNull
-	@Pattern(regexp="[a-zA-Z0-9]{6,12}",message="Password must contain between 6 to 12 characters. Must be alphanumeric with both Upper and lowercase characters.")
+	//password must be between 8 to 20 characters which contain at least one lowercase letter, one uppercase letter, can have digits and can have any of these characters (@, #, $, %, &, !, ^, *, ~, _, -)
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%&!^*~_-]).{8,20}$", message = "Password must be between 8 to 20 characters which contain at least one lowercase letter, one uppercase letter, can have digits and can have any of these characters (@, #, $, %, &, !, ^, *, ~, _, -)")
 	private String password;
 
 	public LogIn(Integer userId, String mobileNo, String password) {

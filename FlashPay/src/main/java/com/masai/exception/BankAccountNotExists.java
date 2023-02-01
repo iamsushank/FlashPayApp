@@ -1,13 +1,13 @@
 package com.masai.exception;
 
-public class BankAccountNotExsists extends Exception{
+public class BankAccountNotExists extends Exception{
 
-	public BankAccountNotExsists(String message) {
+	public BankAccountNotExists(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	
-    public BankAccountNotExsists() {
+    public BankAccountNotExists() {
 		// TODO Auto-generated constructor stub
 	}
 }

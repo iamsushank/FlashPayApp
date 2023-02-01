@@ -1,20 +1,12 @@
 package com.masai.service;
 
-import java.lang.StackWalker.Option;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-
-import javax.naming.InsufficientResourcesException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
-import com.masai.exception.BankAccountNotExsists;
 import com.masai.exception.BeneficiaryDetailException;
 import com.masai.exception.CustomerNotException;
 import com.masai.exception.InsufficientBalanceException;
