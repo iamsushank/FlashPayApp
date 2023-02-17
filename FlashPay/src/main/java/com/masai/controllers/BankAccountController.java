@@ -28,15 +28,15 @@ public class BankAccountController {
 	public  ResponseEntity<BankAccount> addBankAccountToWallet(@Valid @RequestBody BankAccount bankaccount, @PathVariable("id") String uniqueId) throws BankAlreadyAdded, UserNotLoggedInException {
 		System.out.println(bankaccount.getAccountNumber());
 		System.out.println(uniqueId);
-		BankAccount aaccountAdded = bankService.createAccount(bankaccount,uniqueId);
+		BankAccount accountAdded = bankService.createAccount(bankaccount,uniqueId);
 
-		return new ResponseEntity<>(bankaccount,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(accountAdded, HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/{acc}/{id}")
 	public  ResponseEntity<BankAccount> deleteBankAccountfromWallet( @PathVariable("acc") String accountNumber,@PathVariable("id") String uniqueId) throws BankAccountNotExists, UserNotLoggedInException {
 		BankAccount accountDeleted = bankService.removeBank(accountNumber, uniqueId);
-		return new ResponseEntity<>(accountDeleted,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(accountDeleted, HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping("/{acc}/{id}")
@@ -48,7 +48,7 @@ public class BankAccountController {
 	@GetMapping("/{id}")
 	public  ResponseEntity<List<BankAccount>> viewAllAccountDetails(@PathVariable("id") String uniqueId) throws NotAnyBankAddedYet, UserNotLoggedInException, BankAccountNotExists {
 		List<BankAccount> accountDetails = bankService.viewAllAccount(uniqueId);
-		return new ResponseEntity<>(accountDetails,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(accountDetails, HttpStatus.ACCEPTED);
 	}
 	
 	

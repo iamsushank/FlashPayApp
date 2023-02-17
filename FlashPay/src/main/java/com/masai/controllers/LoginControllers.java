@@ -24,17 +24,32 @@ public class LoginControllers {
 	
 	@Autowired
 	private LoginService loginService;
-	
+
+
+
+
+	/*
+	* This endpoint is used to login into the account
+	* @param loginData
+	* @return String and 200 status code or 400 status code
+	* */
 	@PostMapping("/login")
 	public ResponseEntity<String> loginHandler(@Valid @RequestBody LogIn loginData) throws LoginException {
 		String login = loginService.logInAccount(loginData);
-		return new ResponseEntity<String>(login,HttpStatus.OK);
+		return new ResponseEntity<>(login,HttpStatus.OK);
 	}
-	
+
+
+
+	/*
+	* This endpoint is used to log out from the account
+	* @param key
+	* @return String and 200 status code or 400 status code
+	* */
 	@PatchMapping("/logout")
 	public ResponseEntity<String> logOutFromAccount(@RequestParam String key) throws LoginException{
 		String logout = loginService.logOutFromAccount(key);
-		return new ResponseEntity<String>(logout,HttpStatus.OK);
+		return new ResponseEntity<>(logout,HttpStatus.OK);
 	}
 	
 	

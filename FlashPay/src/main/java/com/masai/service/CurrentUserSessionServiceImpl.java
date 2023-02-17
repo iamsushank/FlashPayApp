@@ -34,7 +34,7 @@ public class CurrentUserSessionServiceImpl implements CurrentUserSessionService{
 	@Override
 	public Integer getCurrentUserSessionId(String key) throws LoginException {
 		Optional<CurrentSessionUser> currentUser = sessionDAO.findByUuid(key);
-		if(!currentUser.isPresent())
+		if(currentUser.isEmpty())
 		{
 			throw new LoginException("UnAuthorized!!!");
 		}
@@ -44,7 +44,7 @@ public class CurrentUserSessionServiceImpl implements CurrentUserSessionService{
 	@Override
 	public Customer getSignUpDetails(String key) throws LoginException {
 		Optional<CurrentSessionUser> currentUser = sessionDAO.findByUuid(key);
-		if(!currentUser.isPresent())
+		if(currentUser.isEmpty())
 		{
 			return null;
 		}

@@ -23,6 +23,7 @@ import com.masai.repository.SessionDAO;
 @Slf4j
 public class BankAccountServiceImpl implements BankAccountService{
 
+
 	@Autowired
 	private BankAccountDao bankDao;
 	
@@ -31,6 +32,9 @@ public class BankAccountServiceImpl implements BankAccountService{
 	
 	@Autowired
 	private CustomerDAO customerDAO;
+
+
+
 
 	/*
 	* This method is used to create a new bank account
@@ -45,7 +49,7 @@ public class BankAccountServiceImpl implements BankAccountService{
 
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);
 
-		if(!currentUser.isPresent()) {
+		if(currentUser.isEmpty()) {
 			throw new UserNotLoggedInException("Please Login first");
 		}
 
@@ -59,9 +63,13 @@ public class BankAccountServiceImpl implements BankAccountService{
 		}
 
 		bankAccount.setWalletId(wallet.getWalletId());
-		return bankDao.save(bankAccount);
+		BankAccount persistedAccount = bankDao.save(bankAccount);
+		log.info(persistedAccount.getCurrencyType() + " Bank Account Created Successfully");
+		return persistedAccount;
 
 	}
+
+
 
 
 	/*
@@ -92,6 +100,15 @@ public class BankAccountServiceImpl implements BankAccountService{
 		
 	}
 
+
+
+
+	/*
+	* This method is used to view bank account by account number
+	* @param accountNumber
+	* @param uniqueId
+	* @return BankAccount
+	* */
 	@Override
 	public BankAccount viewBankAccountByAccountNumber(String accountNumber, String uniqueId) throws BankAccountNotExists, UserNotLoggedInException {
 		
@@ -112,6 +129,14 @@ public class BankAccountServiceImpl implements BankAccountService{
 		
 	}
 
+
+
+
+	/*
+	* This method is used to view all bank account
+	* @param uniqueId
+	* @return List<BankAccount>
+	* */
 	@Override
 	public List<BankAccount> viewAllAccount(String uniqueId) throws UserNotLoggedInException, NotAnyBankAddedYet, BankAccountNotExists {
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);

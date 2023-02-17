@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
-@Getter@Setter@ToString
+@Getter@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankAccount {

@@ -2,9 +2,9 @@ package com.masai.model;
 
 public enum CurrencyType {
 
+        INR,
         USD,
         EUR,
-        IND,
         JPY,
         YUAN,
         POUND,

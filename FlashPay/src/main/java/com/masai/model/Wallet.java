@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Entity
-@Getter@Setter@ToString
+@Getter@Setter
 @NoArgsConstructor@AllArgsConstructor
 public class Wallet {
    

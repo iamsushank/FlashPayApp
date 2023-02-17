@@ -23,18 +23,18 @@ import java.util.*;
 public class BillPaymentController {
 	
 	@Autowired
-	private BillPaymentService bService;
+	private BillPaymentService billPaymentService;
 	
 	@PostMapping("/{uniqueId}")
 	public ResponseEntity<BillPayment> addNewBillPaymentDetails(@RequestBody BillPayment billPayment, @PathVariable String uniqueId) throws UserNotLoggedInException, InsufficientBalanceException {
-		BillPayment addBill =  bService.makeBillPayment(billPayment, uniqueId);
-		return new ResponseEntity<BillPayment> (addBill, HttpStatus.CREATED);
+		BillPayment addBill =  billPaymentService.billPaymentUsingWallet(billPayment, uniqueId);
+		return new ResponseEntity<> (addBill, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Set<BillPayment>> viewAllBillPayments(@PathVariable("id") String uniqueId) throws UserNotLoggedInException {
-		Set<BillPayment> billPayments = bService.viewBillPayments(uniqueId);
-		return new ResponseEntity<Set<BillPayment>>(billPayments,HttpStatus.ACCEPTED);
+		Set<BillPayment> billPayments = billPaymentService.viewBillPayments(uniqueId);
+		return new ResponseEntity<>(billPayments,HttpStatus.ACCEPTED);
 	}
 	
 }

@@ -1,5 +1,10 @@
 package com.masai.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +14,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
+@Getter@Setter
+@NoArgsConstructor@AllArgsConstructor
 public class LogIn {
 	
 	@Id
@@ -23,48 +30,8 @@ public class LogIn {
 	
 	
 	@NotNull
-	//password must be between 8 to 20 characters which contain at least one lowercase letter, one uppercase letter, can have digits and can have any of these characters (@, #, $, %, &, !, ^, *, ~, _, -)
 	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%&!^*~_-]).{8,20}$", message = "Password must be between 8 to 20 characters which contain at least one lowercase letter, one uppercase letter, can have digits and can have any of these characters (@, #, $, %, &, !, ^, *, ~, _, -)")
 	private String password;
 
-	public LogIn(Integer userId, String mobileNo, String password) {
-		super();
-		this.userId = userId;
-		this.mobileNo = mobileNo;
-		this.password = password;
-	}
 
-	public String getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-
-	public LogIn() {
-		super();
-
-	}
-	
-	
 }

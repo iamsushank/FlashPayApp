@@ -1,25 +1,15 @@
 package com.masai.service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Set;
-
+import com.masai.exception.InsufficientBalanceException;
+import com.masai.exception.UserNotLoggedInException;
+import com.masai.model.*;
+import com.masai.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.exception.InsufficientBalanceException;
-import com.masai.exception.UserNotLoggedInException;
-import com.masai.model.BillPayment;
-import com.masai.model.CurrentSessionUser;
-import com.masai.model.Customer;
-import com.masai.model.Transaction;
-import com.masai.model.Wallet;
-import com.masai.repository.BankAccountDao;
-import com.masai.repository.BillPaymentDao;
-import com.masai.repository.CustomerDAO;
-import com.masai.repository.SessionDAO;
-import com.masai.repository.TransactionDao;
-import com.masai.repository.WalletDao;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BillPaymentServiceImpl implements BillPaymentService{
@@ -31,10 +21,10 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 	private SessionDAO sessionDao;
 	
 	@Autowired
-	private CustomerDAO cDao;
+	private CustomerDAO customerDAO;
 	
 	@Autowired
-	private BankAccountDao bankAccoundDao;
+	private BankAccountDao bankAccountDao;
 	
 	@Autowired
 	private WalletDao walletDao;
@@ -43,16 +33,39 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 	private TransactionDao transactionDao;
 
 	@Override
-	public BillPayment makeBillPayment(BillPayment billpayment,String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException {
+	public BillPayment billPaymentUsingBankAccount(BillPayment billpayment, String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException {
+
+		CurrentSessionUser currentUser =  sessionDao
+											.findByUuid(uniqueId)
+											.orElseThrow(() -> new UserNotLoggedInException("Please Login first"));
+
+		Wallet wallet = customerDAO
+						.findById(currentUser.getUserId())
+						.orElseThrow(() -> new UserNotLoggedInException("Please Login first"))
+						.getWallet();
+
+		BankAccount bankAccount = bankAccountDao
+									.findByAccountNumber(billpayment.getAccountNumber())
+									.orElseThrow(() -> new UserNotLoggedInException("Bank Account not found"));
+
+
+
+		return null;
+	}
+
+	@Override
+	public BillPayment billPaymentUsingWallet(BillPayment billpayment, String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException {
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);
-		
-		if(!currentUser.isPresent()) {
+
+		if(currentUser.isEmpty()) {
 			throw new UserNotLoggedInException("Please Login first");
 		}
-		
-		Optional<Customer> customer =  cDao.findById(currentUser.get().getUserId());
+
+		Optional<Customer> customer =  customerDAO.findById(currentUser.get().getUserId());
 		Wallet wallet = customer.get().getWallet();
-		
+
+
+
 		if(wallet.getBalance()<billpayment.getAmount()) {
 			throw new InsufficientBalanceException("Insufficient balance in wallet, Add money to your wallet");
 		}
@@ -61,7 +74,7 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 		walletDao.save(wallet);
 		
 		billpayment.setWalletId(wallet.getWalletId());
-		billpayment.setTime(LocalDateTime.now());
+		billpayment.setTime(LocalDate.now());
 		
 		BillPayment completedPayment = billDao.save(billpayment);
 		
@@ -69,7 +82,7 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 			Transaction transaction = new Transaction();
 			transaction.setDescription(billpayment.getBilltype() +  " successfull");
 			transaction.setAmount(billpayment.getAmount());
-			transaction.setTransactionDate(LocalDateTime.now());
+			transaction.setTransactionDate(LocalDate.now());
 			transaction.setTransactionType(billpayment.getTransactionType());
 			transaction.setWalletId(wallet.getWalletId());
 			wallet.getTransaction().add(transaction);
@@ -81,17 +94,17 @@ public class BillPaymentServiceImpl implements BillPaymentService{
 
 	@Override
 	public Set<BillPayment> viewBillPayments(String uniqueId) throws UserNotLoggedInException {
-		
-		
+
+
 		Optional<CurrentSessionUser> currentUser =  sessionDao.findByUuid(uniqueId);
-		
+
 		if(!currentUser.isPresent()) {
 			throw new UserNotLoggedInException("Please Login first");
 		}
-		
-		Optional<Customer> customer =  cDao.findById(currentUser.get().getUserId());
+
+		Optional<Customer> customer =  customerDAO.findById(currentUser.get().getUserId());
 		Wallet wallet = customer.get().getWallet();
-		
+
 		Set<BillPayment> billpaymnets = billDao.findByWalletId(wallet.getWalletId());
 		return billpaymnets;
 	}

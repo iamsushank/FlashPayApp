@@ -1,5 +1,6 @@
 package com.masai.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -131,7 +132,7 @@ public class WalletServiceImpl implements WalletService {
 		
 		Transaction transaction = new Transaction();
         transaction.setTransactionType(TransactionType.WALLET_TO_WALLET);
-        transaction.setTransactionDate(LocalDateTime.now());
+        transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(amout);
         transaction.setDescription("Fund Transfer from Wallet to Wallet Successfull !");
         transaction.setWalletId(wallet.getWalletId());
@@ -179,7 +180,7 @@ public class WalletServiceImpl implements WalletService {
 		// Transaction Details
 		Transaction transaction = new Transaction();
         transaction.setTransactionType(TransactionType.WALLET_TO_BANK);
-        transaction.setTransactionDate(LocalDateTime.now());
+        transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(amount);
         transaction.setDescription("Fund Transfer from Wallet to Bank is successfull!");
         transaction.setWalletId(wallet.getWalletId());
@@ -255,7 +256,7 @@ public class WalletServiceImpl implements WalletService {
 		Transaction transaction = new Transaction();
 
         transaction.setTransactionType(TransactionType.BANK_TO_WALLET);
-        transaction.setTransactionDate(LocalDateTime.now());
+        transaction.setTransactionDate(LocalDate.now());
         transaction.setAmount(amount);
         transaction.setDescription("Fund Transferred from Bank to Wallet successfully");
         transaction.setWalletId(wallet.getWalletId());

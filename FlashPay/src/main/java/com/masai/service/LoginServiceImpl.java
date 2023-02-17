@@ -1,18 +1,17 @@
 package com.masai.service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
+import com.masai.exception.LoginException;
+import com.masai.model.CurrentSessionUser;
+import com.masai.model.Customer;
+import com.masai.model.LogIn;
+import com.masai.repository.CustomerDAO;
+import com.masai.repository.LogInDAO;
+import com.masai.repository.SessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.masai.exception.LoginException;
-import com.masai.model.CurrentSessionUser;
-import com.masai.model.LogIn;
-import com.masai.model.Customer;
-import com.masai.repository.LogInDAO;
-import com.masai.repository.SessionDAO;
-import com.masai.repository.CustomerDAO;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class LoginServiceImpl implements LoginService{
@@ -31,36 +30,55 @@ public class LoginServiceImpl implements LoginService{
 	
 	
 
+	/*
+	* This method is used to login into the account
+	* @param loginData
+	* @return String
+	* */
 	@Override
 	public String logInAccount(LogIn loginData) throws LoginException {
-		Optional<Customer> options = signUpDAO.findByMobileNo(loginData.getMobileNo());
+		Optional<Customer> customerOptional = signUpDAO.findByMobileNo(loginData.getMobileNo());
 		
-		if(options.isEmpty()) {
+		if(customerOptional.isEmpty()) {
 			throw new LoginException("Invalid mobile Number ");
 		}
 		
-		Customer newSignUp = options.get();
+		Customer customerLogIn = customerOptional.get();
 
-		Integer newSignUpId = newSignUp.getUserId();
-		Optional<CurrentSessionUser> currentSessionUser = SessionDAO.findByUserId(newSignUpId);
+		Integer customerId = customerLogIn.getUserId();
+		Optional<CurrentSessionUser> currentSessionUser = SessionDAO.findByUserId(customerId);
 		
 		if(currentSessionUser.isPresent()) {
 			throw new LoginException("User already login with this userId");
 		}
 		
-		if((newSignUp.getMobileNo().equals(loginData.getMobileNo()))  && newSignUp.getPassword().equals(loginData.getPassword())) {
+		if((customerLogIn.getMobileNo().equals(loginData.getMobileNo()))  && customerLogIn.getPassword().equals(loginData.getPassword())) {
+
 			String key = RandomString.getRandomString();
-			CurrentSessionUser currentSessionUser2 = new CurrentSessionUser(newSignUp.getUserId(), key, newSignUp.getMobileNo(),LocalDateTime.now());
+
 			loginDAO.save(loginData);
-			SessionDAO.save(currentSessionUser2);
-			return currentSessionUser2.toString();
-		}else {
+
+			CurrentSessionUser persistCurrentSessionUser = new CurrentSessionUser(loginData.getUserId(), customerLogIn.getUserId(), key, customerLogIn.getMobileNo(), LocalDate.now());
+
+			SessionDAO.save(persistCurrentSessionUser);
+
+			return persistCurrentSessionUser.toString();
+		}
+		else {
 			throw new LoginException("Invalid mobile and Password");
 		}
 		
 	}
 	
 
+
+
+
+	/*
+	* This method is used to log out from the account
+	* @param key
+	* @return String
+	* */
 	@Override
 	public String logOutFromAccount(String key) throws LoginException {
 		Optional<CurrentSessionUser> currentSessionuserOptional = SessionDAO.findByUuid(key);
@@ -70,12 +88,15 @@ public class LoginServiceImpl implements LoginService{
 		}
 		
 		CurrentSessionUser currentSessionUser = getCurrentLoginUserSession.getCurrentUserSession(key);
-		
+
+		Optional<LogIn> logInData = loginDAO.findById(currentSessionuserOptional.get().getId());
+
+		if (logInData.isEmpty()) {
+			throw new LoginException("User has not logged in with this Userid");
+		}
+
 		SessionDAO.delete(currentSessionUser);
-		
-		Optional<LogIn> logindata = loginDAO.findById(currentSessionuserOptional.get().getUserId());
-		
-		loginDAO.delete(logindata.get());
+		loginDAO.delete(logInData.get());
 		
 		return "Logged Out Successfully....";
 	}

@@ -7,8 +7,10 @@ import com.masai.exception.UserNotLoggedInException;
 import com.masai.model.BillPayment;
 
 public interface BillPaymentService {
-	
-	public BillPayment makeBillPayment(BillPayment billpayment,String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException;
 
-	public Set<BillPayment> viewBillPayments(String uniqueId) throws UserNotLoggedInException;
+	BillPayment billPaymentUsingBankAccount(BillPayment billpayment, String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException;
+	
+	BillPayment billPaymentUsingWallet(BillPayment billpayment, String uniqueId) throws InsufficientBalanceException, UserNotLoggedInException;
+
+	Set<BillPayment> viewBillPayments(String uniqueId) throws UserNotLoggedInException;
 }
